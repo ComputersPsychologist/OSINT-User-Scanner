@@ -20,7 +20,8 @@ export default function InputField () {
   const [query, setQuery] = useState(null)
   const [statusCode, setStatusCode] = useState(null);
   const [info, setInfo] = useState(null)
-  
+  const [site, setSite] = useState(null)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if(query && urlList) {
@@ -50,16 +51,19 @@ export default function InputField () {
 
   const checkWebsite = async (site) => {
     try {
-      const response = await fetch(`/api/check?url=${encodeURIComponent(site.uri_check)}`);
+      const response = await fetch(`/api/check?url=${encodeURIComponent(site.uri_check)}&site=${encodeURIComponent(JSON.stringify(site))}`);
       const data = await response.json()
-      setStatusCode(data.status)
-      setInfo(data.response)
+      console.log(data.site.name, data.responseData.status ,data.responseData)
+      setInfo(data.responseData)
+      setSite(data.site)
     } catch (error) {
       console.error('Error al verificar el sitio web:', error);
-    } finally {
-      console.log(statusCode, site.name, info)
-    }
+    } 
   }
+
+  useEffect(() => {
+    // console.log(info, site.name)
+  },[info, site])
 
   return (
     <form className="w-[44%] py-2 px-2 mb-4 border-4 border-double border-green-600 rounded-md flex justify-between" onSubmit={handleSubmit}>
