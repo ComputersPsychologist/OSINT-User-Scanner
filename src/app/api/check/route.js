@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
 export async function GET(request) {
-  const targetUrl = request.nextUrl.searchParams.get('url');
-  const siteParam = request.nextUrl.searchParams.get('site');
+  const targetUrl = request.nextUrl.searchParams.get('url')
+  const siteParam = request.nextUrl.searchParams.get('site')
 
   try {
-    const response = await fetch(targetUrl);
+    const response = await fetch(targetUrl)
 
-    // Crea un nuevo objeto con las propiedades deseadas del response
+    
     const responseData = {
       ok: response.ok,
       status: response.status,
@@ -15,18 +15,15 @@ export async function GET(request) {
       redirected: response.redirected,
       type: response.type,
       url: response.url,
-    };
+    }
 
-    // Decodifica y parsea el objeto 'site'
-    const site = siteParam ? JSON.parse(decodeURIComponent(siteParam)) : null;
+    // Parse 'site' object
+    const site = siteParam ? JSON.parse(decodeURIComponent(siteParam)) : null
 
-    // Retorna ambos objetos en la respuesta
-    return NextResponse.json({
-      responseData: responseData,  // Información de la respuesta fetch
-      site: site,                // Objeto 'site' recibido
-    });
+  
+    return NextResponse.json({ responseData, site })
 
   } catch (error) {
-    return NextResponse.json({ error: 'Error al acceder al sitio web' }, { status: 500 });
+    return NextResponse.json({ error: 'Error al acceder al sitio web' }, { status: 500 })
   }
 }

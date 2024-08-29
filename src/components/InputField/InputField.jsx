@@ -1,87 +1,23 @@
-'use client'
-import useFetchList from "@/hooks/useFetchList"
-import styles from "./InputField.module.css"
-import { useEffect, useRef, useState } from "react"
+import styles from "./InputField.module.css";
+import { useRef, useEffect } from "react";
 
-export default function InputField () {
-
-
-  /* Text input focused on load */
-  const focusedInput = useRef(null)
-  useEffect(() => {
-    if(focusedInput.current) {
-      focusedInput.current.focus()
-    }
-  },[])
-
-  /* Query */
-
-  const { urlList } = useFetchList(process.env.URLS_LIST)
-  const [query, setQuery] = useState(null)
-  const [statusCode, setStatusCode] = useState(null);
-  const [info, setInfo] = useState(null)
-  const [site, setSite] = useState(null)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if(query && urlList) {
-      iterateList(urlList)
-    } else {
-      console.log('database error: db not found')
-    }
-  }
-
-  const iterateList = async (urlList) => {
-    urlList.map((site, index) => {
-
-      if(index < 3) {
-
-        if(site.uri_check) {
-          site.uri_check = site.uri_check.replace(/{account}/g, `${query}`);
-          checkWebsite(site)
-        } else {
-          console.log(`URL from ${site.name} not found in database`)
-        }
-
-      }
-
-
-    })
-  }
-
-  const checkWebsite = async (site) => {
-    try {
-      const response = await fetch(`/api/check?url=${encodeURIComponent(site.uri_check)}&site=${encodeURIComponent(JSON.stringify(site))}`);
-      const data = await response.json()
-      console.log(data.site.name, data.responseData.status ,data.responseData)
-      setInfo(data.responseData)
-      setSite(data.site)
-    } catch (error) {
-      console.error('Error al verificar el sitio web:', error);
-    } 
-  }
+export default function InputField({ value, onChange }) {
+  const focusedInput = useRef(null);
 
   useEffect(() => {
-    // console.log(info, site.name)
-  },[info, site])
+    if (focusedInput.current) {
+      focusedInput.current.focus();
+    }
+  }, []);
 
   return (
-    <form className="w-[44%] py-2 px-2 mb-4 border-4 border-double border-green-600 rounded-md flex justify-between" onSubmit={handleSubmit}>
-      {/* <div>
-        <span className="text-green-500 text-1xl font-pixelify ">Loading</span>  
-        <span className={`text-green-500 text-1xl font-pixelify ${styles.loading}`}>...</span>
-      </div>
-      <div>
-        <span className="text-green-500 text-1xl font-pixelify">0</span>
-        <span className="text-green-500 text-1xl font-pixelify">/660</span>
-      </div> */}
-      <input 
-        className={`${styles.userInput} font-pixelify`}   
-        type="text" 
-        placeholder="@username + ENTER↵"
-        ref={focusedInput}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-    </form>
-  )
+    <input
+      className={`${styles.userInput} font-pixelify bg-black border-none text-white text-base no-underline w-full`}
+      type="text"
+      placeholder="@username + ENTER↵"
+      ref={focusedInput}
+      value={value} // El valor del input se controla con la prop "value"
+      onChange={(e) => onChange(e.target.value)} // Se llama a la función "onChange" del padre al cambiar el input
+    />
+  );
 }

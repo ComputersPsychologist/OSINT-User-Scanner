@@ -1,41 +1,10 @@
 .userInput {
   caret: rgb(0, 139, 9);
-  background-color: black;
-  border: none;
   outline: none;
-  color: rgb(255, 255, 255);
-  padding: 0;
-  font-size: 1rem;
-  text-decoration: none;
-  width: 100%;
   padding: 0rem .2rem;
 }
 
 .userInput::placeholder {
   color:rgb(149, 149, 149);
   text-align: center;
-}
-
-/* ELLIPSIS DOTS ANIMATION */ 
-
-.loading {
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
-  animation: ellipsis steps(4,end) 1000ms infinite;
-  content: "\2026"; /* ascii code for the ellipsis character */
-  width: 0px;
-}
-
-@keyframes ellipsis {
-  to {
-    width: 1em;    
-  }
-}
-
-@-webkit-keyframes ellipsis {
-  to {
-    width: 1em;    
-  }
 }
