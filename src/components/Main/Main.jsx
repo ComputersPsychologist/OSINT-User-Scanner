@@ -12,7 +12,7 @@ export default function Main () {
   }
 
   const VideoComp = () => ( 
-    <video className={styles.video} poster="/theking.gif" autoPlay muted loop>
+    <video className={styles.video} poster="/noise.webp" preload="eager" autoPlay muted loop>
       <source src="/screenmini.webm" type="video/webm" />
     </video>
   )

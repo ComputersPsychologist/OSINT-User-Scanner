@@ -1,5 +1,5 @@
 import useFetchList from "@/hooks/useFetchList"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import InputField from "../InputField/InputField"
 import QueryLoader from "../QueryLoader/QueryLoader"
 import Link from "next/link"
@@ -9,7 +9,7 @@ export default function Form ({ onLoading }) {
   const { urlList } = useFetchList(process.env.URLS_LIST)
   const listLength = urlList.length 
   // QUERY LIMIT (listLength by default)
-  const queryLimit = 10
+  const queryLimit = 50
   
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
