@@ -1,10 +1,12 @@
 'use client'
+import { layoutContext } from "@/context/layoutContext"
 import Form from "../Form/Form"
 import styles from "./Main.module.css"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 export default function Main () {
 
+  const { layout, switchLayout } = useContext(layoutContext)
   const [formIsLoading, setFormIsLoading] = useState(false);
   
   const handleFormLoading = (isLoading) => {
@@ -18,8 +20,8 @@ export default function Main () {
   )
 
   return (
-    <main className=" flex flex-col items-center justify-center bg-black w-[30%] h-full border-x-2 border-solid border-green-900">
-      <img  className={"w-[70%] "} src="/logo.webp"  alt="user seek logo"/>
+    <main className={`${styles.main} ${layout ?  styles.mainToLeft: ''} flex flex-col items-center justify-center bg-black w-[25%] h-[85vh] rounded-[10px] border-[6px] border-double border-[rgb(71,119,0)]`}>
+      <img  className={"w-[70%] mb-4"} src="/logo.webp"  alt="user seek logo"/>
       <Form onLoading={handleFormLoading}/>
       <div className={styles.contenedor}>
 

@@ -1,15 +1,18 @@
 import useFetchList from "@/hooks/useFetchList"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import InputField from "../InputField/InputField"
 import QueryLoader from "../QueryLoader/QueryLoader"
 import Link from "next/link"
+import { layoutContext } from "@/context/layoutContext"
 
 export default function Form ({ onLoading }) {
 
   const { urlList } = useFetchList(process.env.URLS_LIST)
   const listLength = urlList.length 
   // QUERY LIMIT (listLength by default)
-  const queryLimit = 50
+  const queryLimit = 3
+
+  const {layout, switchLayout} = useContext(layoutContext)
   
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -30,6 +33,7 @@ export default function Form ({ onLoading }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     if(query && urlList) {
+      switchLayout(true)
       setIsLoading(true)
       onLoading(true)
       iterateList(urlList)
@@ -91,7 +95,7 @@ export default function Form ({ onLoading }) {
   )
 
   return (
-    <form className="w-[44%] py-2 px-2 mb-4 border-4 border-double border-green-600 rounded-md flex justify-between" onSubmit={handleSubmit}>
+    <form className="w-[54%] py-2 px-2 mb-6 border-2 border-solid border-green-700 rounded-md flex justify-between" onSubmit={handleSubmit}>
       {
         !isLoading 
           ? <InputField value={query} onChange={handleInputChange} /> 

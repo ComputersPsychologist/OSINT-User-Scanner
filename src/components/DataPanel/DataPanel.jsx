@@ -1,24 +1,23 @@
+'use client'
+import { useContext } from "react"
+import Card from "../Card/Card"
 import styles from "./DataPanel.module.css"
+import { layoutContext } from "@/context/layoutContext"
 
 export default function DataPanel ({sites = []}) {
+
+  const { layout, setLayout } = useContext(layoutContext)
+
   return (
-    <div className={`${styles.panel} overflow-y-scroll p-8`}>
-      <div className="grid grid-cols-4 gap-4">
+    <div className={`${styles.panel} ${layout ? styles.panelToLeft : ''} overflow-y-scroll p-6 w-[65vw] h-[85vh] bg-[rgba(69,116,0,0.132)] text-[white] rounded-[10px] border-[6px] border-double border-[rgb(71,119,0)]`}>
+      <div className={`grid grid-cols-3 gap-4`}>
         {
           sites.map((site, index) => (
-            <div className="text-white-600 font-pixelify border-solid border border-gray-500 rounded-md w-full h-40 p-2 grid place-items-center bg-black bg-opacity-70" key={index}>
-              <div>
-                <span className="text-green-700 text-[1.2rem]">{` site · `}</span>
-                <span>{`Facebook`}</span>
-              </div>
-              <div>
-                <span className="text-green-700 text-[1.2rem]">{`account · `}</span>
-              {`${index + 1} : ${site}`}
-              </div>
-            </div>
+           <Card site={site} key={index} />
           ))
         }
       </div>
+      <div className="h-[15vh] invisible"></div>
     </div>
   )
 }
